@@ -1,0 +1,34 @@
+[tools]
+node = "24.12.0"
+pnpm = "10.25.0"
+
+[settings]
+lockfile = true
+
+[tasks.setup]
+description = "Install dependencies"
+run = "pnpm install"
+
+[tasks.dev]
+description = "Start dev server"
+run = "pnpm dev"
+
+[tasks.build]
+description = "Build for production"
+run = "pnpm build"
+
+[tasks.preview]
+description = "Preview production build"
+run = "pnpm preview"
+
+[tasks.lint]
+description = "Run ESLint"
+run = "pnpm lint"
+
+[tasks.typecheck]
+description = "TypeScript typecheck"
+run = "pnpm typecheck"
+
+[tasks.format]
+description = "Format code"
+run = "pnpm format"

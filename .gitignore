@@ -1,0 +1,57 @@
+# =====================
+# Logs
+# =====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =====================
+# Dependencies / package managers
+# =====================
+node_modules/
+.pnpm-store/
+
+# Avoid mixed lockfiles (pnpm only)
+package-lock.json
+yarn.lock
+
+# =====================
+# Build outputs / caches
+# =====================
+dist/
+dist-ssr/
+.vite/
+coverage/
+*.tsbuildinfo
+.eslintcache
+
+# =====================
+# Local env / secrets
+# =====================
+.env
+.env.*
+!.env.example
+*.local
+
+# =====================
+# mise (project toolchain)
+# =====================
+mise.local.toml
+
+# =====================
+# Editor / OS files
+# =====================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
