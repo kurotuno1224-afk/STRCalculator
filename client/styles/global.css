@@ -1,0 +1,162 @@
+@import "tailwindcss";
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
+    background: radial-gradient(circle at 20% 20%, #111b36, #05070d 55%);
+    color: #f8fafc;
+  }
+
+  code {
+    font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular,
+      Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    padding: 0.15rem 0.35rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 3vw, 3rem);
+  gap: 2rem;
+}
+
+.app-shell__header {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #8da2ff;
+}
+
+.app-shell__eyebrow {
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+  opacity: 0.8;
+}
+
+.app-shell__title {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.75rem);
+  text-transform: none;
+  letter-spacing: normal;
+  color: #f8fafc;
+}
+
+.app-shell__main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+}
+
+.app-shell__footer {
+  text-align: center;
+  color: rgba(248, 250, 252, 0.65);
+  font-size: 0.85rem;
+}
+
+.welcome-card {
+  position: relative;
+  max-width: 640px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: 1.5rem;
+  background: rgba(7, 12, 26, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.welcome-card__glow {
+  position: absolute;
+  inset: -30% auto auto -20%;
+  width: 32vw;
+  max-width: 340px;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(79, 70, 229, 0.6), transparent 70%);
+  filter: blur(8px);
+  animation: floatPulse 12s ease-in-out infinite;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.welcome-card__eyebrow {
+  margin: 0;
+  color: #93c5fd;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.welcome-card__title {
+  margin: 0.5rem 0 1rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.welcome-card__body {
+  margin: 0;
+  line-height: 1.75;
+  color: rgba(248, 250, 252, 0.9);
+}
+
+.welcome-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(101, 163, 255, 0.15);
+  border: 1px solid rgba(180, 197, 255, 0.5);
+}
+
+.badge--pulse {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(74, 222, 128, 0.5);
+  animation: badgePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes floatPulse {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(20px, -10px) scale(1.05);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes badgePulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(74, 222, 128, 0);
+  }
+}
