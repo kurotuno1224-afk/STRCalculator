@@ -58,7 +58,7 @@ export default function HsrAssetsRoute() {
   const selected = data?.[selectedId];
 
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ padding: 16 }} className="text-white">
       <h2>HSR Icon / 立绘 测试</h2>
 
       <div style={{ display: "flex", gap: 12, margin: "12px 0" }}>
