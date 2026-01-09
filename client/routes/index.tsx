@@ -1,3 +1,5 @@
+import { NaviButton } from "./navi-button"
+
 function HomeRoute() {
   return (
     <section className="welcome-card">
@@ -12,6 +14,7 @@ function HomeRoute() {
         <span className="badge">React 19</span>
         <span className="badge">Vite 7</span>
         <span className="badge badge--pulse">结构 ready</span>
+        <NaviButton />
       </div>
     </section>
   )
