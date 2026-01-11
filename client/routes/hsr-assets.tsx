@@ -35,7 +35,7 @@ export default function HsrAssetsRoute() {
       console.error(e);
       setData(null);
     });
-  }, [selectedId]);
+  }, [selectedId,]);
 
   const list = useMemo(() => {
     if (!data) return [];
