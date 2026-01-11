@@ -1,7 +1,7 @@
 export type Lang = (typeof LANG)[keyof typeof LANG];
 
-const DB_BASE = "https://vizualabstract.github.io/StarRailStaticAPI/db";
-const ASSET_BASE = "https://vizualabstract.github.io/StarRailStaticAPI/assets";
+const DB_BASE = "https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master/index_new";
+const ASSET_BASE = "https://cdn.jsdelivr.net/gh/Mar-7th/StarRailRes@master";
 const LANG = {
   EN: "en",
   CN: "cn",
