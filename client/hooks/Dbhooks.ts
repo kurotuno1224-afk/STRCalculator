@@ -14,7 +14,6 @@ export function zzzAsset(path: string) {
   return `${HAKUSH_ZZZ_ASSET_BASE}/${path.replace(/^\//, "")}`;
 }
 
-// 用法
 const iconUrl = zzzAsset("UI/IconRoleSelect13.webp");
 
 export { DB_BASE, ASSET_BASE, LANG, iconUrl };

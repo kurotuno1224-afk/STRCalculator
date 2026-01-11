@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 import { MyDialog } from "@/components/mydialog"
-=======
 import { NaviButton } from "./navi-button"
 
->>>>>>> main
 function HomeRoute() {
   return (
     <section className="welcome-card">

@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import type { LANGtype } from "@/components/langButton";
 import { LangButton } from "@/components/langButton";
-import { ASSET_BASE, DB_BASE, LANG, iconUrl } from "@/hooks/Dbhooks";
+import { ASSET_BASE, DB_BASE, LANG, iconUrl, type Lang } from "@/hooks/Dbhooks";
 
 type Character = {
   id: string;
@@ -19,10 +18,10 @@ export default function HsrAssetsRoute() {
   const [data, setData] = useState<CharactersResponse | null>(null);
   const [q, setQ] = useState("");
   const [selectedId, setSelectedId] = useState<string>("1001");
-
+  const [LANG, setLANG] = useState<Lang>("en");
   useEffect(() => {
     (async () => {
-      const url = `${DB_BASE}/${LANG.JP}/characters.json`;
+      const url = `${DB_BASE}/${LANG}/characters.json`;
       const res = await fetch(url);
       if (!res.ok)
         throw new Error(`characters.json load failed: ${res.status}`);
@@ -36,7 +35,7 @@ export default function HsrAssetsRoute() {
       console.error(e);
       setData(null);
     });
-  }, [selectedId]);
+  }, [selectedId, LANG]);
 
   const list = useMemo(() => {
     if (!data) return [];
@@ -54,7 +53,7 @@ export default function HsrAssetsRoute() {
   }, [list, q]);
 
   const selected = data?.[selectedId];
-  const [LANG, setLANG] = useState<LANGtype>("en");
+
   return (
     <div style={{ padding: 16 }} className="text-white">
       <h2>HSR Icon / 立绘 测试</h2>

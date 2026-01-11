@@ -1,14 +1,13 @@
 import { Button } from "./ui/button";
+import type { Lang } from "@/hooks/Dbhooks";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-
-export type LANGtype = "en" | "jp" | "cn";
 
 export function LangButton({
     lang: LANG,
     setLang: setLANG,
 }: {
-    lang: LANGtype;
-    setLang: (v: LANGtype) => void;
+    lang: Lang;
+    setLang: (v: Lang) => void;
 }) {
     return (
         <DropdownMenu.Root>
@@ -18,8 +17,9 @@ export function LangButton({
 
             <DropdownMenu.Content>
                 <DropdownMenu.RadioGroup
+                className=""
                     value={LANG}
-                    onValueChange={(v) => setLANG(v as LANGtype)}
+                    onValueChange={(v) => setLANG(v as Lang)}
                 >
                     <DropdownMenu.RadioItem value="en">EN</DropdownMenu.RadioItem>
                     <DropdownMenu.RadioItem value="cn">CN</DropdownMenu.RadioItem>
