@@ -111,18 +111,20 @@
 .welcome-card__title {
   margin: 0.5rem 0 1rem;
   font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .welcome-card__body {
   margin: 0;
   line-height: 1.75;
-  color: rgba(248, 250, 252, 0.9);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .welcome-card__badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
   margin-top: 1.75rem;
 }
 

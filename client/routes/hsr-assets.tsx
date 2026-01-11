@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import type { LANGtype } from "@/components/langButton";
 import { LangButton } from "@/components/langButton";
+import { ASSET_BASE, DB_BASE, LANG, iconUrl } from "@/hooks/Dbhooks";
+
 type Character = {
   id: string;
   name: string;
@@ -9,13 +11,6 @@ type Character = {
   portrait?: string;
 };
 type CharactersResponse = Record<string, Character>;
-
-const DB_BASE = "https://vizualabstract.github.io/StarRailStaticAPI/db";
-const ASSET_BASE = "https://vizualabstract.github.io/StarRailStaticAPI/assets";
-
-
-
-
 
 function assetUrl(p?: string) {
   return p ? `${ASSET_BASE}/${p}` : "";
@@ -27,7 +22,7 @@ export default function HsrAssetsRoute() {
 
   useEffect(() => {
     (async () => {
-      const url = `${DB_BASE}/${LANG}/characters.json`;
+      const url = `${DB_BASE}/${LANG.JP}/characters.json`;
       const res = await fetch(url);
       if (!res.ok)
         throw new Error(`characters.json load failed: ${res.status}`);
@@ -41,7 +36,7 @@ export default function HsrAssetsRoute() {
       console.error(e);
       setData(null);
     });
-  }, []);
+  }, [selectedId]);
 
   const list = useMemo(() => {
     if (!data) return [];
