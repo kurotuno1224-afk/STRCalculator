@@ -1,217 +1,153 @@
-import { useEffect, useMemo, useState } from "react";
 import { LangButton } from "@/components/langButton";
-import { ASSET_BASE, DB_BASE, LANG, iconUrl, type Lang } from "@/hooks/Dbhooks";
+import { useHsrCharacters, } from "@/hooks/useHsrCharacters";
+import { CharacterList } from "@/components/character-list";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { HeroCard } from "@/components/hero-card";
 
-type Character = {
-  id: string;
-  name: string;
-  icon?: string;
-  preview?: string;
-  portrait?: string;
-};
-type CharactersResponse = Record<string, Character>;
+// function LinkButton({ href, label }: { href: string; label: string }) {
+//   return (
+//     <Button asChild variant="secondary" size="sm" className="h-8">
+//       <a href={href} target="_blank" rel="noreferrer">
+//         {label}
+//       </a>
+//     </Button>
+//   );
+// }
 
-function assetUrl(p?: string) {
-  return p ? `${ASSET_BASE}/${p}` : "";
-}
 export default function HsrAssetsRoute() {
-  const [data, setData] = useState<CharactersResponse | null>(null);
-  const [q, setQ] = useState("");
-  const [selectedId, setSelectedId] = useState<string>("1001");
-  const [LANG, setLANG] = useState<Lang>("en");
-  useEffect(() => {
-    (async () => {
-      const url = `${DB_BASE}/${LANG}/characters.json`;
-      const res = await fetch(url);
-      if (!res.ok)
-        throw new Error(`characters.json load failed: ${res.status}`);
-      const json = (await res.json()) as CharactersResponse;
-      setData(json);
-      if (json[selectedId] == null) {
-        const first = Object.keys(json)[0];
-        if (first) setSelectedId(first);
-      }
-    })().catch((e) => {
-      console.error(e);
-      setData(null);
-    });
-  }, [selectedId, LANG]);
-
-  const list = useMemo(() => {
-    if (!data) return [];
-    const arr = Object.values(data);
-    arr.sort((a, b) => Number(a.id) - Number(b.id));
-    return arr;
-  }, [data]);
-
-  const filtered = useMemo(() => {
-    const kw = q.trim().toLowerCase();
-    if (!kw) return list;
-    return list.filter(
-      (c) => c.id.includes(kw) || c.name.toLowerCase().includes(kw)
-    );
-  }, [list, q]);
-
-  const selected = data?.[selectedId];
+  const {
+    data,
+    q,
+    selectedId,
+    lang,
+    loading,
+    error,
+    filtered,
+    selected,
+    list,
+    setQ,
+    setSelectedId,
+    setLang,
+  } = useHsrCharacters({ initialSelectedId: "1001", initialLang: "en" });
 
   return (
-    <div style={{ padding: 16 }} className="text-white">
-      <h2>HSR Icon / 立绘 测试</h2>
-      <LangButton lang={LANG} setLang={setLANG}></LangButton>
+    <div>
+      <div className="min-h-screen bg-background text-foreground">
+        <div className="mx-auto max-w-6xl px-4 py-6">
+          {/* Header */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-semibold tracking-tight">
+                  HSR Assets Browser
+                </h2>
+                <Badge variant="secondary" className="h-6">
+                  {lang.toUpperCase()}
+                </Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Icons / Preview / Portrait 快速检索与查看
+              </p>
+            </div>
 
-      <div style={{ display: "flex", gap: 12, margin: "12px 0" }}>
-        <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="输入角色ID或名字过滤"
-          style={{ flex: 1, padding: 10 }}
-        />
-      </div>
-
-      {!data && <p>加载失败（看控制台）。</p>}
-
-      {!!data && (
-        <div
-          style={{ display: "grid", gridTemplateColumns: "360px 1fr", gap: 16 }}
-        >
-          <div
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: 8,
-              padding: 12,
-              height: 720,
-              overflow: "auto",
-            }}
-          >
-            {filtered.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setSelectedId(c.id)}
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  padding: 10,
-                  marginBottom: 6,
-                  borderRadius: 8,
-                  border:
-                    c.id === selectedId ? "2px solid #333" : "1px solid #ddd",
-                  background: "transparent",
-                  cursor: "pointer",
-                }}
-              >
-                <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                  <img
-                    src={assetUrl(c.icon)}
-                    alt={c.name}
-                    width={40}
-                    height={40}
-                    style={{ borderRadius: 8, objectFit: "cover" }}
-                    loading="lazy"
-                  />
-                  <div>
-                    <div style={{ fontWeight: 600 }}>{c.name}</div>
-                    <div style={{ fontSize: 12, opacity: 0.7 }}>{c.id}</div>
-                  </div>
-                </div>
-              </button>
-            ))}
+            <div className="flex items-center gap-2">
+              <LangButton lang={lang} setLang={setLang} />
+            </div>
           </div>
 
-          <div
-            style={{ border: "1px solid #ddd", borderRadius: 8, padding: 12 }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 12,
-              }}
-            >
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 18 }}>
-                  {selected?.name ?? "—"}
-                </div>
-                <div style={{ fontSize: 12, opacity: 0.7 }}>
-                  id: {selected?.id ?? "—"}
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                {selected?.icon && (
-                  <a
-                    href={assetUrl(selected.icon)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    icon
-                  </a>
-                )}
-                {selected?.preview && (
-                  <a
-                    href={assetUrl(selected.preview)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    preview
-                  </a>
-                )}
-                {selected?.portrait && (
-                  <a
-                    href={assetUrl(selected.portrait)}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    portrait
-                  </a>
-                )}
+          {/* Toolbar */}
+          <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+            <div className="relative">
+              <Input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="输入角色ID或名字过滤"
+                className="h-10"
+              />
+              <div className="mt-2 text-xs text-muted-foreground">
+                {loading
+                  ? "加载中…"
+                  : `共 ${list.length} 条，当前 ${filtered.length} 条`}
+                {error ? ` · ${error}` : ""}
               </div>
             </div>
 
-            <hr style={{ margin: "12px 0" }} />
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 12,
-              }}
-            >
-              <div>
-                <div style={{ fontWeight: 600, marginBottom: 6 }}>Preview</div>
-                {selected?.preview ? (
-                  <img
-                    src={assetUrl(selected.preview)}
-                    alt={`${selected?.name} preview`}
-                    style={{
-                      width: "100%",
-                      borderRadius: 12,
-                      border: "1px solid #eee",
-                    }}
-                  />
-                ) : (
-                  <div style={{ opacity: 0.7 }}>No preview</div>
-                )}
-              </div>
-
-              <div>
-                <div style={{ fontWeight: 600, marginBottom: 6 }}>Portrait</div>
-                {selected?.portrait ? (
-                  <img
-                    src={assetUrl(selected.portrait)}
-                    alt={`${selected?.name} portrait`}
-                    style={{
-                      width: "100%",
-                      borderRadius: 12,
-                      border: "1px solid #eee",
-                    }}
-                  />
-                ) : (
-                  <div style={{ opacity: 0.7 }}>No portrait</div>
-                )}
-              </div>
+            <div className="flex gap-2 sm:justify-end">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setQ("")}
+                disabled={!q}
+              >
+                清空
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  if (!data) return;
+                  const ids = Object.keys(data);
+                  const next = ids[0];
+                  if (next) setSelectedId(next);
+                }}
+                disabled={!data}
+              >
+                选中首个
+              </Button>
             </div>
+          </div>
+
+          {/* Main */}
+          <div className="mt-5 grid gap-4 lg:grid-cols-[360px_1fr]">
+            {/* Left: list */}
+            <Card className="overflow-hidden">
+              <CardHeader className="py-4">
+                <CardTitle className="text-base">Characters</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-0">
+                {!data && loading && (
+                  <div className="space-y-2">
+                    {Array.from({ length: 10 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-3 rounded-xl border p-3"
+                      >
+                        <Skeleton className="h-11 w-11 rounded-lg" />
+                        <div className="flex-1 space-y-2">
+                          <Skeleton className="h-4 w-40" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {!!data && (
+                  <CharacterList
+                    items={filtered}
+                    selectedId={selectedId}
+                    onSelect={setSelectedId}
+                    emptyText="没有匹配的角色，请更换关键词"
+                  />
+                )}
+
+                {!loading && !data && (
+                  <div className="rounded-xl border border-dashed p-6 text-sm text-muted-foreground">
+                    加载失败。请检查网络与控制台日志。
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Right: detail */}
+           <HeroCard hero ={ selected }/>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

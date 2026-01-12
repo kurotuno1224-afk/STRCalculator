@@ -1,31 +1,36 @@
 import { Button } from "./ui/button";
 import type { Lang } from "@/hooks/Dbhooks";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from "@/components/ui/dropdown-menu";
 
 export function LangButton({
-    lang: LANG,
-    setLang: setLANG,
+  lang: LANG,
+  setLang: setLANG,
 }: {
-    lang: Lang;
-    setLang: (v: Lang) => void;
+  lang: Lang;
+  setLang: (v: Lang) => void;
 }) {
-    return (
-        <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
-                <Button>changeLANG: {LANG.toUpperCase()}</Button>
-            </DropdownMenu.Trigger>
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>changeLANG: {LANG.toUpperCase()}</Button>
+      </DropdownMenuTrigger>
 
-            <DropdownMenu.Content>
-                <DropdownMenu.RadioGroup
-                className=""
-                    value={LANG}
-                    onValueChange={(v) => setLANG(v as Lang)}
-                >
-                    <DropdownMenu.RadioItem value="en">EN</DropdownMenu.RadioItem>
-                    <DropdownMenu.RadioItem value="cn">CN</DropdownMenu.RadioItem>
-                    <DropdownMenu.RadioItem value="jp">JP</DropdownMenu.RadioItem>
-                </DropdownMenu.RadioGroup>
-            </DropdownMenu.Content>
-        </DropdownMenu.Root>
-    );
+      <DropdownMenuContent>
+        <DropdownMenuRadioGroup
+          value={LANG}
+          onValueChange={(v) => setLANG(v as Lang)}
+        >
+          <DropdownMenuRadioItem value="en">EN</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="cn">CN</DropdownMenuRadioItem>
+          <DropdownMenuRadioItem value="jp">JP</DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
