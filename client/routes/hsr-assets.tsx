@@ -144,7 +144,7 @@ export default function HsrAssetsRoute() {
             </Card>
 
             {/* Right: detail */}
-           <HeroCard hero ={ selected }/>
+            <HeroCard hero={selected} />
           </div>
         </div>
       </div>
