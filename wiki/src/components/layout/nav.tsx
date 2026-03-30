@@ -17,11 +17,7 @@ export function Nav() {
     <nav aria-label="主导航">
       <ul className="flex items-center gap-1" role="list">
         {NAV_LINKS.map((link) => {
-          // 根路由精确匹配；子路由前缀匹配
-          const isActive =
-            link.href === '/'
-              ? pathname === '/'
-              : pathname.startsWith(link.href)
+          const isActive = pathname.startsWith(link.href)
 
           return (
             <li key={link.href}>
